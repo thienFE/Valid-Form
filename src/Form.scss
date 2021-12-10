@@ -79,6 +79,28 @@
       width: 100%;
     }
 
+    div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0 8px;
+      background-color: #fff;
+
+      .form-input {
+        border: none;
+        padding: 6px 0;
+        flex: 1;
+      }
+
+      span {
+        color: #535461;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    }
+
     .form-input {
       padding: 6px 8px;
       width: 100%;

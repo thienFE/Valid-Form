@@ -1,8 +1,8 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import useForm from "./useForm"
-import validateInfo from "./validateInfo"
+import useForm from "./useForm";
+import validateInfo from "./validateInfo";
 
 function LoginContent({ submitForm }) {
   const {
@@ -13,13 +13,19 @@ function LoginContent({ submitForm }) {
     checkWarning,
     errors,
     activeSigninBtn,
-  } = useForm(submitForm, validateInfo)
+  } = useForm(submitForm, validateInfo);
 
   const handleRemoveDefault = (e) => {
     if (!activeSigninBtn) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
+
+  const [seePassword, setSeePassword] = useState(false);
+
+  const handlePasswordType = () => {
+    setSeePassword(!seePassword);
+  };
 
   return (
     <div className="form-content-inner">
@@ -40,19 +46,23 @@ function LoginContent({ submitForm }) {
         </div>
         <div className="form-inputs">
           <label className="form-label">Password</label>
-          <input
-            className="form-input"
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.password && (
-            <p className={checkWarning.password ? "" : "hide"}>
-              {errors.password}
-            </p>
-          )}
+          <div>
+            <input
+              className="form-input"
+              type={seePassword ? "text" : "password"}
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <span onClick={handlePasswordType}>
+              {seePassword ? (
+                <i className="far fa-eye" />
+              ) : (
+                <i className="far fa-eye-slash"></i>
+              )}
+            </span>
+          </div>
         </div>
         <button
           onClick={handleRemoveDefault}
@@ -70,7 +80,7 @@ function LoginContent({ submitForm }) {
         </span>
       </form>
     </div>
-  )
+  );
 }
 
-export default LoginContent
+export default LoginContent;

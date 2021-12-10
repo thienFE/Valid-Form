@@ -1,8 +1,8 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import useForm from "./useForm"
-import validateInfo from "./validateInfo"
+import useForm from "./useForm";
+import validateInfo from "./validateInfo";
 
 function FormContent({ submitForm }) {
   const {
@@ -13,13 +13,19 @@ function FormContent({ submitForm }) {
     checkWarning,
     errors,
     activeSignupBtn,
-  } = useForm(submitForm, validateInfo)
+  } = useForm(submitForm, validateInfo);
 
   const handleRemoveDefault = (e) => {
     if (!activeSignupBtn) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
+
+  const [seePassword, setSeePassword] = useState(false);
+
+  const handlePasswordType = () => {
+    setSeePassword(!seePassword);
+  };
 
   return (
     <div className="form-content-inner">
@@ -34,7 +40,11 @@ function FormContent({ submitForm }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.username && <p className={checkWarning.username ? "" : "hide"}>{errors.username}</p>}
+          {errors.username && (
+            <p className={checkWarning.username ? "" : "hide"}>
+              {errors.username}
+            </p>
+          )}
         </div>
         <div className="form-inputs">
           <label className="form-label">Email</label>
@@ -46,19 +56,34 @@ function FormContent({ submitForm }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.email && <p className={checkWarning.email ? "" : "hide"}>{errors.email}</p>}
+          {errors.email && (
+            <p className={checkWarning.email ? "" : "hide"}>{errors.email}</p>
+          )}
         </div>
         <div className="form-inputs">
           <label className="form-label">Password</label>
-          <input
-            className="form-input"
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.password && <p className={checkWarning.password ? "" : "hide"}>{errors.password}</p>}
+          <div>
+            <input
+              className="form-input"
+              type={seePassword ? "text" : "password"}
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <span onClick={handlePasswordType}>
+              {seePassword ? (
+                <i className="far fa-eye" />
+              ) : (
+                <i className="far fa-eye-slash"></i>
+              )}
+            </span>
+          </div>
+          {errors.password && (
+            <p className={checkWarning.password ? "" : "hide"}>
+              {errors.password}
+            </p>
+          )}
         </div>
         <div className="form-inputs">
           <label className="form-label">Confirm your password</label>
@@ -70,7 +95,11 @@ function FormContent({ submitForm }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.password2 && <p className={checkWarning.password2 ? "" : "hide"}>{errors.password2}</p>}
+          {errors.password2 && (
+            <p className={checkWarning.password2 ? "" : "hide"}>
+              {errors.password2}
+            </p>
+          )}
         </div>
         <button
           onClick={handleRemoveDefault}
@@ -79,13 +108,16 @@ function FormContent({ submitForm }) {
         >
           Sign up
         </button>
-        <Link to="/" className="google-signin-btn"><img src="/img/google.png" alt="google"/>Sign in with Google</Link>
+        <Link to="/" className="google-signin-btn">
+          <img src="/img/google.png" alt="google" />
+          Sign in with Google
+        </Link>
         <span className="form-login-link">
           Already have an account? Login <Link to="/LoginForm">here</Link>
         </span>
       </form>
     </div>
-  )
+  );
 }
 
-export default FormContent
+export default FormContent;
